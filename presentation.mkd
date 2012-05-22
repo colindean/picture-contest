@@ -108,3 +108,73 @@ git add picture_contest.rb
 git commit
 ```
 
+Crescendo
+---------
+Stub out the app more. We want a landing page with an upload form, an upload
+handler, and a confirmation page that doubles as a way to view individual
+photos that folks have submitted.
+
+```
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'bundler/setup'
+Bundler.require
+
+get '/' do ## show the landing page with an upload form
+  #not much dynamic stuff to do here yet
+  haml :index
+end
+
+post '/submit' do ## accept user submission
+  #check if it's valid
+  #upload picture to S3
+  #store metadata in mongo, including path to image
+  #get the id from mongo
+  #redirect to the pic page
+  redirect to('/pic/%s' % pic_id)
+end
+
+get '/pic/:id' do |id| ## show the picture with share links
+  #load the requested id
+  #get the image path on s3
+  #show the image on the page
+  haml :pic
+end
+```
+
+Commit!
+
+Views
+-----
+We need to create a template that Sinatra can render for our front page. Let's
+keep it basic for now. Create a directory `views`, wherein our templates will 
+reside.
+
+views/layout.html
+```
+!!! 5
+%html
+  %head
+    %title Picture contest!
+  %body 
+    %h1 Picture contest!
+    =yield
+```
+
+views/index.haml
+```
+%p Participate in our picture contest by using the form to upload a picture!
+%form{:action => '/submit', :method => :post}
+  %fieldset
+    %legend Upload your picture!
+    %label{:for => 'name'}
+      Name
+    %input{:id => 'name', :name => 'name'}/
+    %label{:for => 'email'}
+      Email
+    %input{:id => 'email', :name => 'email', :type => 'email'}/
+    %label{:for => 'picture'}
+      Picture
+    %input{:id => 'picture', :name => 'picture', :type => 'file'}/
+    %input{:type => 'submit', :value => 'Upload!'}/
+```

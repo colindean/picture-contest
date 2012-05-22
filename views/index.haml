@@ -1,0 +1,14 @@
+%p Participate in our picture contest by using the form to upload a picture!
+%form{:action => '/submit', :method => :post}
+  %fieldset
+    %legend Upload your picture!
+    %label{:for => 'name'}
+      Name
+    %input{:id => 'name', :name => 'name'}/
+    %label{:for => 'email'}
+      Email
+    %input{:id => 'email', :name => 'email', :type => 'email'}/
+    %label{:for => 'picture'}
+      Picture
+    %input{:id => 'picture', :name => 'picture', :type => 'file'}/
+    %input{:type => 'submit', :value => 'Upload!'}/
