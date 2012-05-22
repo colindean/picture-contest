@@ -4,6 +4,8 @@ require 'bundler/setup'
 Bundler.require
 require "sinatra/reloader" if development?
 
+Mongoid.load!("config/mongoid.yml")
+
 get '/' do ## show the landing page with an upload form
   #not much dynamic stuff to do here yet
   

@@ -24,9 +24,12 @@ Technologies to be used
 Assumptions
 -----------
 
-### You have Ruby installed and you have a Heroku account.
+### You have Ruby installed and you have MongoDB installed.
 
-Wrong? Get [RVM](rvm.beginrescueend.com) and install Ruby 1.9.3. 
+Get [RVM](rvm.beginrescueend.com) and install Ruby 1.9.3.
+
+Installing MongoDB is left as an exercise to the reader. A simple
+`sudo apt-get install mongodb` is usually enough on Ubuntu.
 
 ### You understand Git.
 
@@ -184,7 +187,10 @@ Upload logic
 
 Now we get into the real meat of the matter! 
 
-This is a great time to install Sinatra::Reloader, an extension that automatically reloads a Sinatra app on each request. This way, one can make changes to the app without having to stop and restart the web server manually.
+First, a neat tool since we'll be making mistakes inevitably!
+-------------------------------------------------------------
+
+This is a great time to install [Sinatra::Reloader](http://www.sinatrarb.com/contrib/reloader), an extension that automatically reloads a Sinatra app on each request. This way, one can make changes to the app without having to stop and restart the web server manually.
 
 ```
 echo "gem 'sinatra-contrib'" >> Gemfile
@@ -192,5 +198,42 @@ bundle install
 ```
 
 Add `require "sinatra/reloader" if development?` under the `Bundler.require` line in picture_contest.rb.
+
+Make sure that your stuff is working and commit: `git commit -a -m "add sinatra-contrib for reloader"`.
+
+Second, the gems we need for magic to work
+------------------------------------------
+
+```
+echo "gem 'mongoid', '~> 2.4'" >> Gemfile
+echo "gem 'bson_ext', '~> 1.5'" >> Gemfile
+echo "gem 'aws-s3', :require => 'aws/s3'" >> Gemfile
+bundle install
+```
+
+### [MongoDB](http://mongoid.org/docs/installation.html) stuff
+
+Create a directory `config` and put this into `config/mongoid.yml`:
+
+```
+development:
+  host: localhost
+  database: picture_contest_development
+
+test:
+  host: localhost
+  database: picture_contest_test
+
+production:
+  host: <%= ENV['MONGOID_HOST'] %>
+  port: <%= ENV['MONGOID_PORT'] %>
+  username: <%= ENV['MONGOID_USERNAME'] %>
+  password: <%= ENV['MONGOID_PASSWORD'] %>
+  database: <%= ENV['MONGOID_DATABASE'] %>
+```
+
+Add `Mongoid.load!("config/mongoid.yml")` to `picture_contest.rb` before the route definitions, on or around line 7. This tells Mongoid where to look for its connection information.
+
+### [Amazon S3](http://amazon.rubyforge.org/) stuff
 
 
