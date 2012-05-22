@@ -178,3 +178,19 @@ views/index.haml
     %input{:id => 'picture', :name => 'picture', :type => 'file'}/
     %input{:type => 'submit', :value => 'Upload!'}/
 ```
+
+Upload logic
+------------
+
+Now we get into the real meat of the matter! 
+
+This is a great time to install Sinatra::Reloader, an extension that automatically reloads a Sinatra app on each request. This way, one can make changes to the app without having to stop and restart the web server manually.
+
+```
+echo "gem 'sinatra-contrib'" >> Gemfile
+bundle install
+```
+
+Add `require "sinatra/reloader" if development?` under the `Bundler.require` line in picture_contest.rb.
+
+

@@ -2,6 +2,7 @@
 require 'rubygems'
 require 'bundler/setup'
 Bundler.require
+require "sinatra/reloader" if development?
 
 get '/' do ## show the landing page with an upload form
   #not much dynamic stuff to do here yet
