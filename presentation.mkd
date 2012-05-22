@@ -26,12 +26,16 @@ Assumptions
 
 ### You have Ruby installed and you have a Heroku account.
 
-Wrong? Get [RVM](rvm.beginrescueend.com) and install Ruby 1.9.3. Then sign up 
-for [Heroku](http://heroku.com).
+Wrong? Get [RVM](rvm.beginrescueend.com) and install Ruby 1.9.3. 
 
 ### You understand Git.
 
 Wrong? Go learn the basics. It will change your life.
+
+### You have accounts with Heroku and Amazon Web Services.
+
+* [Heroku](http://heroku.com)
+* [Amazon Web Services](http://aws.amazon.com)
 
 First things first
 ------------------
@@ -62,4 +66,45 @@ gem "thin" # web server
 gem "heroku" #hosting service
 ```
 
-Run `bundle install` to install the gems listed in your Gemfile.
+Run `bundle install` to install the gems listed in your Gemfile. Several 
+additional gems will be installed. These are *dependencies* of the gems we want.
+
+We will add more gems to the Gemfile as we come across them.
+
+Let's make our initial commit here with 
+
+```
+git add . 
+git commit -m "Initial commit"
+```
+
+Sing away
+---------
+
+Create picture_contest.rb and stub out the first parts of what it is we want to
+do
+
+```
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'bundler/setup'
+Bundler.require
+
+get '/' do
+  'Picture contest!'
+end
+```
+
+Save it and execute `bundle exec ruby picture_contest.rb`.
+
+[Open it in your browser](http://localhost:4567) as directed and you should 
+see "Picture contest!" in the browser window! If you do, you've just written
+your first little Sinatra app!
+
+Now's a great time to commit your work. Commit early, commit often.
+
+```
+git add picture_contest.rb
+git commit
+```
+
