@@ -1,0 +1,65 @@
+Getting started with Sinatra
+============================
+
+Writing a small Heroku-targeted app for accepting picture submissions
+
+Technologies to be used
+-----------------------
+
+ * Ruby
+ * Sinatra
+ * MongoDB
+ * Amazon S3
+ * Sendgrid
+ * Git 
+
+ * Notable gems:
+   * bundler
+   * mongoid
+   * heroku
+   * datamapper
+   * haml
+   * thin
+
+Assumptions
+-----------
+
+### You have Ruby installed and you have a Heroku account.
+
+Wrong? Get [RVM](rvm.beginrescueend.com) and install Ruby 1.9.3. Then sign up 
+for [Heroku](http://heroku.com).
+
+### You understand Git.
+
+Wrong? Go learn the basics. It will change your life.
+
+First things first
+------------------
+Step with me!
+
+```
+mkdir picture-contest
+git init .
+echo "rvm use --create 1.9.3@picture-contest" > .rvmrc
+cd .. && cd -
+```
+
+Accept the RVM warning.
+
+```
+gem install bundler
+bundle init
+```
+
+Edit the Gemfile, where Bundler's configuration is kept, to your liking. For
+now, just add Sinatra, Haml, and Thin.
+
+```
+source "https://rubygems.org"
+gem "sinatra" # site engine
+gem "haml" # template engine
+gem "thin" # web server
+gem "heroku" #hosting service
+```
+
+Run `bundle install` to install the gems listed in your Gemfile.
