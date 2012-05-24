@@ -1,0 +1,12 @@
+development:
+  access_key_id: <%= ENV['AWS_S3_ACCESS_KEY'] %>
+  secret_access_key: <%= ENV['AWS_S3_SECRET_KEY'] %>
+  bucket: picture_contest_development
+
+test:
+  <<: *development
+  bucket: picture_contest_test
+
+production:
+  <<: *development
+  bucket: picture_contest

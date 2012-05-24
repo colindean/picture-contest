@@ -236,4 +236,24 @@ Add `Mongoid.load!("config/mongoid.yml")` to `picture_contest.rb` before the rou
 
 ### [Amazon S3](http://amazon.rubyforge.org/) stuff
 
+Drop this into `config/aws_s3.yml`:
+
+```
+development:
+  access_key_id: <%= ENV['AWS_S3_ACCESS_KEY'] %>
+  secret_access_key: <%= ENV['AWS_S3_SECRET_KEY'] %>
+  bucket: picture_contest_development
+
+test:
+  <<: *development
+  bucket: picture_contest_test
+
+production:
+  <<: *development
+  bucket: picture_contest
+```
+
+Use environment variables where possible, especially when your project is going to be used in multiple environments, such as developing on your machine and deploying to Heroku. It's easier to manage environment variables for this than to make changes to a file that's committed to one branch and not another.
+
+
 
