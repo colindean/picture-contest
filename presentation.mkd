@@ -197,7 +197,8 @@ echo "gem 'sinatra-contrib'" >> Gemfile
 bundle install
 ```
 
-Add `require "sinatra/reloader" if development?` under the `Bundler.require` line in picture_contest.rb.
+Add `require "sinatra/reloader" if development?` under the `Bundler.require` 
+line in picture_contest.rb.
 
 Make sure that your stuff is working and commit: `git commit -a -m "add sinatra-contrib for reloader"`.
 
@@ -232,28 +233,54 @@ production:
   database: <%= ENV['MONGOID_DATABASE'] %>
 ```
 
-Add `Mongoid.load!("config/mongoid.yml")` to `picture_contest.rb` before the route definitions, on or around line 7. This tells Mongoid where to look for its connection information.
+Add `Mongoid.load!("config/mongoid.yml")` to `picture_contest.rb` before the
+route definitions, on or around line 7. This tells Mongoid where to look for its
+connection information.
 
 ### [Amazon S3](http://amazon.rubyforge.org/) stuff
 
 Drop this into `config/aws_s3.yml`:
 
 ```
-development:
-  access_key_id: <%= ENV['AWS_S3_ACCESS_KEY'] %>
-  secret_access_key: <%= ENV['AWS_S3_SECRET_KEY'] %>
-  bucket: picture_contest_development
+:development: &development
+  :access_key_id: <%= ENV['AWS_S3_ACCESS_KEY'] %>
+  :secret_access_key: <%= ENV['AWS_S3_SECRET_KEY'] %>
+  :bucket: picture_contest_development
 
-test:
+:test:
   <<: *development
-  bucket: picture_contest_test
+  :bucket: picture_contest_test
 
-production:
+:production:
   <<: *development
-  bucket: picture_contest
+  :bucket: picture_contest
 ```
 
-Use environment variables where possible, especially when your project is going to be used in multiple environments, such as developing on your machine and deploying to Heroku. It's easier to manage environment variables for this than to make changes to a file that's committed to one branch and not another.
+Note the slight difference in the syntax. The aws_s3.yml configuration uses 
+symbols for keys instead of strings like mongoid does.
+
+Use environment variables where possible, especially when your project is going 
+to be used in multiple environments, such as developing on your machine and 
+deploying to Heroku. It's easier to manage environment variables for this than 
+to make changes to a file that's committed to one branch and not another.
+
+Drop this after the Mongoid config loader line:
+
+```
+S3Config = YAML.load(ERB.new(File.read("config/aws_s3.yml")).result)[settings.environment]
+```
+
+We're opening the config file, parsing it with ERB to get the environment
+variables set, and then loading it via YAML. We then use Sinatra's internal 
+settings to grab the environment.
+
+Starting to add some code
+-------------------------
 
 
 
+References
+----------
+
+* [Uploading Files In Sinatra
+](http://ididitmyway.heroku.com/past/2011/1/16/uploading_files_in_sinatra/)
