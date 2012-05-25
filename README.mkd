@@ -1,0 +1,9 @@
+Picture Contest!
+================
+
+by @colindean
+
+Seriously, don't use this for anything yet. It's not ready for anything.
+
+It may eventually be a tutorial/presentation after I've got the bugs worked
+out.
